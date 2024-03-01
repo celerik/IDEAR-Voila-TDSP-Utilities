@@ -2,7 +2,7 @@
 
 [**Interactive Data Exploration, Analysis, and Reporting (IDEAR) in Python**](DataScienceUtilities/DataReport-Utils/Python)
 
-This repository contains a set of **Data Science Utilities** originally developed for use in the context of the [Team Data Science Process (TDSP)](https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview) by Microsoft. Celerik has updated these utilities to support the latest Python versions and integrated Voilà for an enhanced visualization experience.
+This repository contains a set of **Data Science Utilities** originally developed for use in the context of the [Team Data Science Process (TDSP)](https://docs.microsoft.com/en-us/azure/machine-learning/team-data-science-process/overview) by Microsoft. Celerik has updated these utilities to support the latest Python versions and integrated Voilà for an enhanced visualization experience. This repository is intended only to support only the python version of the IDEAR, so R and MRS are excluded from the repo.
 
 ## Release Notes
 
