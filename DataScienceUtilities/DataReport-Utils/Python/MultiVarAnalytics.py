@@ -12,7 +12,7 @@ import scipy
 
 class InteractionAnalytics():
     @staticmethod
-    def rank_associations(df, conf_dict, col1, col2, col3, Export):        
+    def rank_associations(df, conf_dict, col1, col2, col3):        
         try:
             col2 = int(col2)
             col3 = int(col3)
@@ -84,7 +84,9 @@ class InteractionAnalytics():
                         try:
                             cramer = np.sqrt(chisq/sum(tbl))
                         except:
-                            cramer = np.sqrt(chisq/tbl.as_matrix().sum())
+                            # cramer = np.sqrt(chisq/tbl.as_matrix().sum())
+                            cramer = np.sqrt(chisq / tbl.values.sum())
+
                             pass
                         cramer_dict[each] = cramer
 
@@ -94,13 +96,13 @@ class InteractionAnalytics():
                 topk_cramer[['CramersV']].plot(kind='bar',ax=ax2)
                 ax2.legend().set_visible(False)
                 ax2.set_xlabel("Cramer's V")
-                ax2.set_title('Top {} Associated Categoric Variables'.format(str(col2)))
+                ax2.set_title('Top {} Associated Categoric Variables'.format(str(col3)))
         
     @staticmethod
     def NoLabels(x):
         return ''
     @staticmethod
-    def categorical_relations(df, filename, col1, col2, Export=False):
+    def categorical_relations(df, filename, col1, col2):
     #     print col1, col2
         if col1 != col2:
             df2 = df[(df[col1].isin(df[col1].value_counts().head(10).index.tolist()))&(df[col2].isin(df[col2].value_counts().head(10).index.tolist())) ]
@@ -117,7 +119,7 @@ class InteractionAnalytics():
         ax.set_title('{} vs {}'.format(col1, col2) )
     
     @staticmethod
-    def numerical_relations(df, col1, col2, Export=False):
+    def numerical_relations(df, col1, col2):
         from statsmodels.nonparametric.smoothers_lowess import lowess
         x = df[col2]
         y = df[col1]
@@ -140,21 +142,22 @@ class InteractionAnalytics():
         ax.set_title('{} vs {}, Correlation {}'.format(col1, col2, corr))
     
     @staticmethod
-    def numerical_correlation(df, conf_dict, col1, Export=False):
+    def numerical_correlation(df, conf_dict, col1):
         from matplotlib.pyplot import quiver, colorbar, clim,  matshow
         df2 = df[conf_dict['NumericalColumns']].corr(method=col1)
         col_names = list(df[conf_dict['NumericalColumns']].columns)
     #     print col_names
         fig,ax = plt.subplots(1, 1)
         m = ax.matshow(df2, cmap=matplotlib.pyplot.cm.coolwarm)
-        ax.grid(b=False)
+        #ax.grid(b=False)
+        ax.grid()
         fig.colorbar(m)
         ax.set_xticklabels([' '] + col_names) #xticks extend the displayable area. Catering for this by adding a dummy value
         ax.set_yticklabels([' '] + col_names)
         #return df2
 
     @staticmethod
-    def numerical_pca(df, conf_dict, col1, col2, col3, Export=False):
+    def numerical_pca(df, conf_dict, col1, col2, col3):
 
         from sklearn.decomposition import PCA
         from sklearn.preprocessing import StandardScaler
@@ -211,7 +214,7 @@ class InteractionAnalytics():
         ax2.legend(title=col1, fontsize=14)
                 
     @staticmethod
-    def nc_relation(df, conf_dict, col1, col2, col3=None, Export=False):
+    def nc_relation(df, conf_dict, col1, col2, col3=None):
         fig,ax = plt.subplots()
         f = df[[col1,col2]].boxplot(by=col2, ax=ax)
 
@@ -228,7 +231,7 @@ class InteractionAnalytics():
         #return p_val, status, color
     
     @staticmethod
-    def pca_3d(df, conf_dict, col1, col2,  col3=None, Export=False):
+    def pca_3d(df, conf_dict, col1, col2,  col3=None):
         from sklearn.decomposition import PCA
         from sklearn.preprocessing import StandardScaler
 
@@ -236,9 +239,11 @@ class InteractionAnalytics():
         df2 = df[conf_dict['NumericalColumns']]
         X = StandardScaler().fit_transform(df2.values)
         pca = PCA(n_components=4)
-        pca.fit(X)
+        #pca.fit(X)
+        X_pca = pca.fit_transform(X)
         fig = plt.figure()
-        ax = fig.gca(projection='3d')
+        #ax = fig.gca(projection='3d')
+        ax = fig.add_subplot(111, projection='3d')
         ax.view_init(elev=10, azim=int(col2))              # elevation and angle
     #     ax.dist=10  
         Y_pca = pd.DataFrame(pca.fit_transform(X))
@@ -272,7 +277,7 @@ class InteractionAnalytics():
         ax.legend(title=col1, fontsize=10)
 
     @staticmethod
-    def pca_3d_new(df, conf_dict, col1, col2, col3, col4, col5, Export=False):
+    def pca_3d_new(df, conf_dict, col1, col2, col3, col4, col5):
         from sklearn.decomposition import PCA
         from sklearn.preprocessing import StandardScaler
 
@@ -320,7 +325,7 @@ class InteractionAnalytics():
         ax.legend(title=col1, fontsize=10)
         
     @staticmethod
-    def nnc_relation(df, conf_dict, col1, col2, col3, Export=False):
+    def nnc_relation(df, conf_dict, col1, col2, col3):
         import itertools
         markers = ['x', 'o', '^']
         color = itertools.cycle(['r', 'y', 'c', 'y', 'k']) 
@@ -336,3 +341,4 @@ class InteractionAnalytics():
         ax.set_xlabel(col1)
         ax.set_ylabel(col2)
         ax.legend(numpoints=1, loc='best', title=col3)
+        

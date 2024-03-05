@@ -1,6 +1,7 @@
 #%%add_conf_code_to_report
 
 import collections
+from collections.abc import Iterable
 import types
 
 try:
@@ -57,6 +58,7 @@ class ConfUtility():
 			except Exception as ex:
 				print (ex)
 		return yaml_dict
+		
 	
 	@staticmethod
 	def dict_to_htmllist(dc, include_list=None):
@@ -65,7 +67,7 @@ class ConfUtility():
 						   'NumericalColumns':'Numerical Columns are '}
 		for each in dc.keys():
 			if not include_list or each in include_list:
-				if isinstance(dc[each],  collections.Iterable) and not isinstance(dc[each], str):
+				if isinstance(dc[each], Iterable) and not isinstance(dc[each], str):
 					dc2[each] = ', \n'.join(val for val in dc[each])
 				else:
 					dc2[each] = dc[each]		
