@@ -102,7 +102,7 @@ class InteractionAnalytics():
     def NoLabels(x):
         return ''
     @staticmethod
-    def categorical_relations(df, filename, col1, col2):
+    def categorical_relations(df, col1, col2): #remove filename
     #     print col1, col2
         if col1 != col2:
             df2 = df[(df[col1].isin(df[col1].value_counts().head(10).index.tolist()))&(df[col2].isin(df[col2].value_counts().head(10).index.tolist())) ]

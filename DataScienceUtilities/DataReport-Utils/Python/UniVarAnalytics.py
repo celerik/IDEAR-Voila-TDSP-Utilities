@@ -4,7 +4,7 @@ import scipy.stats as stats
 class TargetAnalytics():
 	ReportedVariables = []
 	@staticmethod
-	def custom_barplot(df,filename='',col1=''):
+	def custom_barplot(df,col1=''): #filename=''
 		f, (ax0,ax1) = plt.subplots(1, 2)
 		df[col1].value_counts().plot(ax=ax0, kind='bar')
 		ax0.set_title('Bar Plot of {}'.format(col1))
@@ -24,7 +24,7 @@ class NumericAnalytics():
 		return status, color, p_val
 	
 	@staticmethod
-	def custom_barplot(df, filename='', col1=''):
+	def custom_barplot(df, col1=''): #filename=''
 		fig, axes = plt.subplots(2,2)
 		axes = axes.reshape(-1)
 	#     print df[col].describe()
@@ -44,7 +44,7 @@ class NumericAnalytics():
 	
 class CategoricAnalytics():
 	@staticmethod
-	def custom_barplot(df, filename='', col1=''):
+	def custom_barplot(df, col1=''): #filename=''
 		f, (ax0,ax1) = plt.subplots(1,2)
 		df[col1].value_counts().nlargest(10).plot(ax=ax0, kind='bar')
 		ax0.set_xlabel(col1)
